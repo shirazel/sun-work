@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>דף חזרה: מערכת השמש</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Assistant:wght@400;600;800&family=Fredoka:wght@400;600;700&family=Heebo:wght@400;600;800&family=Playpen+Sans+Hebrew:wght@400;700&family=Rubik:wght@400;500;700&family=Secular+One&family=Suez+One&family=Varela+Round&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --heading-font: Heebo, sans-serif;
+    --body-font: Assistant, sans-serif;
+    --primary: #FFC53D;
+    --secondary: #5CC8FF;
+    --bg: #0E1440;
+    --text: #F4F6FF;
+    --on-primary: #1B1B2F;
+    --card: color-mix(in srgb, var(--text) 8%, transparent);
+    --line: color-mix(in srgb, var(--text) 18%, transparent);
+    --muted: color-mix(in srgb, var(--text) 72%, transparent);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--body-font);
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text);
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 18%, var(--text) 50%, transparent 51%),
+      radial-gradient(1px 1px at 78% 9%, var(--text) 50%, transparent 51%),
+      radial-gradient(2px 2px at 55% 32%, var(--text) 50%, transparent 51%),
+      radial-gradient(1px 1px at 30% 62%, var(--text) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 88% 55%, var(--text) 50%, transparent 51%),
+      radial-gradient(1px 1px at 8% 85%, var(--text) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 66% 80%, var(--text) 50%, transparent 51%);
+    background-size: 520px 520px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 28px 18px 40px; }
+  h1, h2, h3 { font-family: var(--heading-font); line-height: 1.25; margin: 0; }
+
+  .hero { text-align: center; padding: 26px 0 8px; }
+  .tag {
+    display: inline-block; font-size: 15px; font-weight: 500;
+    color: var(--on-primary); background: var(--primary);
+    padding: 3px 16px; border-radius: 999px; margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(34px, 7vw, 54px); font-weight: 700; }
+  h1 span { color: var(--primary); }
+  .hero p { color: var(--muted); margin: 10px auto 0; max-width: 560px; }
+
+  /* שורת כוכבי הלכת */
+  .planets {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 6px;
+    margin: 30px 0 34px; padding: 22px 14px 14px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 22px;
+    overflow-x: auto;
+  }
+  .planet { flex: 1 0 62px; text-align: center; font-size: 13.5px; color: var(--muted); }
+  .planet i {
+    display: block; margin: 0 auto 8px; border-radius: 50%;
+    width: var(--s); height: var(--s); background: var(--c);
+    box-shadow: inset -6px -6px 0 rgba(0,0,0,.22);
+  }
+  .planet.sun i { box-shadow: 0 0 26px var(--primary); background: var(--primary); }
+  .planet.saturn i { position: relative; }
+  .planet.saturn i::after {
+    content: ""; position: absolute; left: -32%; right: -32%; top: 42%; height: 16%;
+    border-radius: 50%; background: #E9D8A6; opacity: .9;
+  }
+
+  h2 { font-size: 28px; font-weight: 700; margin: 0 0 16px; }
+  h2 small {
+    display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--secondary); margin-inline-end: 10px;
+  }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 20px; padding: 18px 20px;
+  }
+  .card h3 { font-size: 21px; font-weight: 600; color: var(--secondary); margin-bottom: 6px; }
+  .card p { margin: 0; font-size: 17px; }
+  .card b { color: var(--primary); font-weight: 700; }
+
+  .remember {
+    margin: 18px 0 40px; padding: 16px 20px; border-radius: 20px;
+    background: var(--primary); color: var(--on-primary); font-weight: 500;
+  }
+  .remember strong { font-family: var(--heading-font); font-size: 20px; }
+
+  /* טופס */
+  form { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 24px 20px; }
+  .row { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 8px; }
+  label { display: block; font-weight: 500; margin: 0 0 6px; }
+  input[type=text], input[type=email], select.field, textarea {
+    width: 100%; font: inherit; color: #1B1B2F; background: #FFFFFF;
+    border: 3px solid transparent; border-radius: 14px; padding: 10px 14px;
+  }
+  textarea { min-height: 130px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--secondary); }
+  .question { margin-top: 24px; }
+  .question .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%; margin-inline-end: 8px;
+    font-family: var(--heading-font); font-weight: 700;
+    background: var(--secondary); color: #10203A;
+  }
+  .question label { font-size: 19px; }
+  .hint { color: var(--muted); font-size: 15.5px; margin: 0 0 8px; }
+  .btn {
+    display: block; width: 100%; margin-top: 26px; padding: 14px;
+    font-family: var(--heading-font); font-size: 22px; font-weight: 600;
+    color: var(--on-primary); background: var(--primary);
+    border: 0; border-radius: 16px; cursor: pointer;
+  }
+  .btn:disabled { opacity: .6; cursor: default; }
+  .msg { min-height: 28px; margin: 12px 0 0; text-align: center; font-weight: 500; color: var(--primary); }
+
+  .done { display: none; text-align: center; padding: 50px 20px; background: var(--card); border: 1px solid var(--line); border-radius: 24px; }
+  .done h2 { font-size: 34px; color: var(--primary); margin-bottom: 10px; }
+  .done .star {
+    width: 90px; height: 90px; margin: 0 auto 18px; background: var(--primary);
+    clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+
+  .signature {
+    direction: rtl; text-align: center; font-size: 12px; line-height: 1.8;
+    padding: 18px 12px; margin-top: 36px; opacity: .72;
+    border-top: 1px solid var(--line);
+  }
+  .signature .sig-links { display: block; }
+  .signature a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+  .signature .sig-sep { margin: 0 6px; opacity: .5; }
+
+  /* חלונית עיצוב, מוצגת רק למורה */
+  .editor {
+    position: fixed; bottom: 14px; left: 14px; z-index: 10; width: 270px;
+    background: #FFFFFF; color: #1B1B2F; border-radius: 16px; padding: 14px 16px;
+    font-family: 'Rubik', sans-serif; font-size: 14px; line-height: 1.4;
+    box-shadow: 0 10px 40px rgba(0,0,0,.45);
+  }
+  .editor h3 { font-family: 'Rubik', sans-serif; font-size: 16px; margin-bottom: 8px; }
+  .editor label { font-size: 13px; margin: 8px 0 3px; }
+  .editor select { width: 100%; font: inherit; padding: 5px; border-radius: 8px; border: 1px solid #C9CDE0; }
+  .editor .colors { display: flex; gap: 10px; }
+  .editor .colors div { flex: 1; text-align: center; }
+  .editor input[type=color] { width: 100%; height: 34px; border: 1px solid #C9CDE0; border-radius: 8px; padding: 2px; background: #fff; }
+  .editor button { width: 100%; margin-top: 12px; padding: 8px; font: inherit; font-weight: 700; border: 0; border-radius: 10px; background: #1B1B2F; color: #fff; cursor: pointer; }
+  .editor p { margin: 8px 0 0; min-height: 18px; font-size: 13px; }
+
+  @media (max-width: 560px) {
+    body { font-size: 17px; }
+    .row { grid-template-columns: 1fr; }
+    .editor { position: static; width: auto; margin: 20px 0 0; }
+    .signature .sig-sep { display: none; }
+    .signature a { display: block; margin: 3px 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="tag">מדעים, כיתה ו</div>
+    <h1>חוזרים על <span>מערכת השמש</span></h1>
+    <p>קוראים את הסיכום, נזכרים במה שלמדנו, ועונים על שלוש שאלות במילים שלכם.</p>
+  </header>
+
+  <div class="planets" aria-label="השמש ושמונת כוכבי הלכת לפי הסדר">
+    <div class="planet sun" style="--s:74px"><i></i>השמש</div>
+    <div class="planet" style="--s:16px;--c:#B8B2A7"><i></i>כוכב חמה</div>
+    <div class="planet" style="--s:26px;--c:#E8B15D"><i></i>נוגה</div>
+    <div class="planet" style="--s:28px;--c:#4DA3FF"><i></i>כדור הארץ</div>
+    <div class="planet" style="--s:20px;--c:#E0633C"><i></i>מאדים</div>
+    <div class="planet" style="--s:58px;--c:#D9A066"><i></i>צדק</div>
+    <div class="planet saturn" style="--s:48px;--c:#E3C77B"><i></i>שבתאי</div>
+    <div class="planet" style="--s:38px;--c:#8FE3E0"><i></i>אורנוס</div>
+    <div class="planet" style="--s:36px;--c:#4767E8"><i></i>נפטון</div>
+  </div>
+
+  <section>
+    <h2><small></small>מה חשוב לזכור</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>השמש</h3>
+        <p>השמש היא <b>כוכב</b>, כדור ענק של גז לוהט שנמצא במרכז המערכת. היא מקור האור והחום שלנו, וכוח המשיכה שלה מחזיק את כל כוכבי הלכת במסלולם.</p>
+      </div>
+      <div class="card">
+        <h3>שמונה כוכבי לכת</h3>
+        <p>סביב השמש נעים <b>שמונה</b> כוכבי לכת. לפי המרחק מהשמש: כוכב חמה, נוגה, כדור הארץ, מאדים, צדק, שבתאי, אורנוס ונפטון.</p>
+      </div>
+      <div class="card">
+        <h3>כוכבי הלכת הפנימיים</h3>
+        <p>כוכב חמה, נוגה, כדור הארץ ומאדים. הם <b>קטנים וסלעיים</b>, יש להם קרקע מוצקה והם קרובים לשמש.</p>
+      </div>
+      <div class="card">
+        <h3>כוכבי הלכת החיצוניים</h3>
+        <p>צדק, שבתאי, אורנוס ונפטון. הם <b>ענקיים ועשויים בעיקר מגזים</b>, רחוקים מהשמש וקרים מאוד. צדק הוא הגדול מכולם, ולשבתאי יש טבעות מרשימות.</p>
+      </div>
+      <div class="card">
+        <h3>יום ושנה</h3>
+        <p>כדור הארץ מסתובב סביב עצמו ב<b>24 שעות</b>, וכך נוצרים יום ולילה. הקפה אחת סביב השמש נמשכת כ<b>365 ימים</b>, וזו שנה.</p>
+      </div>
+      <div class="card">
+        <h3>עוד במערכת השמש</h3>
+        <p><b>ירחים</b> מקיפים כוכבי לכת, כמו הירח שלנו. בין מאדים לצדק נמצאת <b>חגורת האסטרואידים</b>, ויש גם שביטים וכוכבי לכת ננסיים כמו פלוטו.</p>
+      </div>
+    </div>
+    <div class="remember">
+      <strong>כדור הארץ מיוחד:</strong>
+      יש בו מים נוזליים, אוויר לנשימה וטמפרטורה מתאימה, כי הוא לא קרוב מדי לשמש ולא רחוק ממנה מדי.
+    </div>
+  </section>
+
+  <section>
+    <h2><small></small>עכשיו תורכם</h2>
+
+    <form id="form" novalidate>
+      <div class="row">
+        <div>
+          <label for="name">השם שלי</label>
+          <input type="text" id="name" maxlength="60" autocomplete="off">
+        </div>
+        <div>
+          <label for="grade">הכיתה שלי</label>
+          <select id="grade" class="field">
+            <option value="">בחרו</option>
+            <option>ו1</option><option>ו2</option><option>ו3</option>
+            <option>ו4</option><option>ו5</option><option>ו6</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <label for="email">כתובת המייל שלי</label>
+        <p class="hint">לכאן יישלחו הציון והמשוב מהמורה.</p>
+        <input type="email" id="email" class="field" dir="ltr" maxlength="120" autocomplete="off" placeholder="name@example.com">
+      </div>
+
+      <div class="question">
+        <label for="a1"><span class="num">1</span>מה ההבדל בין כוכבי הלכת הפנימיים לכוכבי הלכת החיצוניים?</label>
+        <p class="hint">הסבירו במילים שלכם, ותנו דוגמה לכוכב לכת אחד מכל קבוצה.</p>
+        <textarea id="a1" maxlength="3000"></textarea>
+      </div>
+
+      <div class="question">
+        <label for="a2"><span class="num">2</span>מדוע לדעתכם יש חיים על כדור הארץ, ולא על נוגה או על מאדים?</label>
+        <p class="hint">נסו לכתוב לפחות שני תנאים שמאפשרים חיים.</p>
+        <textarea id="a2" maxlength="3000"></textarea>
+      </div>
+
+      <div class="question">
+        <label for="a3"><span class="num">3</span>אילו יכולתם לשלוח חללית מחקר לאחד מכוכבי הלכת, לאן הייתם שולחים אותה?</label>
+        <p class="hint">הסבירו למה בחרתם בו, ומה הייתם רוצים לגלות שם.</p>
+        <textarea id="a3" maxlength="3000"></textarea>
+      </div>
+
+      <button type="submit" class="btn" id="send">שליחת התשובות</button>
+      <p class="msg" id="msg" role="status"></p>
+    </form>
+
+    <div class="done" id="done">
+      <div class="star"></div>
+      <h2>כל הכבוד!</h2>
+      <p>התשובות שלך נשלחו למורה. אפשר לסגור את הדף.</p>
+    </div>
+  </section>
+
+    <div class="editor" id="editor" hidden>
+    <h3>עיצוב הדף</h3>
+    <label for="e-heading">פונט כותרות</label>
+    <select id="e-heading"></select>
+    <label for="e-body">פונט טקסט</label>
+    <select id="e-body"></select>
+    <div class="colors">
+      <div><label for="e-primary">צבע ראשי</label><input type="color" id="e-primary"></div>
+      <div><label for="e-secondary">צבע משני</label><input type="color" id="e-secondary"></div>
+      <div><label for="e-bg">רקע</label><input type="color" id="e-bg"></div>
+    </div>
+    <button type="button" id="e-save">שמירה לכל התלמידים</button>
+    <p id="e-msg"></p>
+  </div>
+
+  <footer class="signature">
+    <span class="sig-name">© שירה רוט זליקוביץ · הוראה יצירתית עם AI</span>
+    <span class="sig-links">
+      <a href="https://wa.me/972523930628" target="_blank" rel="noopener">ווטסאפ</a>
+      <span class="sig-sep">·</span>
+      <a href="https://www.lomdot.org/" target="_blank" rel="noopener">האתר שלי</a>
+      <span class="sig-sep">·</span>
+      <a href="https://www.lomdot.org/" target="_blank" rel="noopener">להזמנת סדנאות בינה מלאכותית</a>
+    </span>
+  </footer>
+</div>
+
+<script>
+  // הכתובת של האפסקריפט שמחובר לגיליון. אם יוצרים פריסה חדשה לגמרי, מעדכנים כאן.
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwkeZ8yDaNMdOaFgbCjB_udfGaW7kzjwNmP1fCZYUyN8WcNwW93PNsHD258XTL76OLV/exec';
+
+  var design = {
+    headingFont: 'Heebo, sans-serif',
+    bodyFont: 'Assistant, sans-serif',
+    primary: '#FFC53D',
+    secondary: '#5CC8FF',
+    background: '#0E1440'
+  };
+
+  // בוחר צבע טקסט כהה או בהיר לפי הרקע, כדי שתמיד יהיה קריא
+  function readableOn(hex) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(String(hex).trim());
+    if (!m) return '#F4F6FF';
+    var n = parseInt(m[1], 16);
+    var light = (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
+    return light > 0.6 ? '#1B1B2F' : '#F4F6FF';
+  }
+
+  function applyDesign(d) {
+    var s = document.documentElement.style;
+    s.setProperty('--heading-font', d.headingFont);
+    s.setProperty('--body-font', d.bodyFont);
+    s.setProperty('--primary', d.primary);
+    s.setProperty('--secondary', d.secondary);
+    s.setProperty('--bg', d.background);
+    s.setProperty('--text', readableOn(d.background));
+    s.setProperty('--on-primary', readableOn(d.primary));
+  }
+
+  applyDesign(design);
+
+  // שולח מידע לאפסקריפט ומחזיר את התשובה שלו
+  function callScript(payload) {
+    return fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (result) {
+        if (!result.ok) throw new Error(result.error || 'שגיאה');
+        return result;
+      });
+  }
+
+  // טוען את העיצוב השמור בגיליון
+  fetch(SCRIPT_URL + '?action=design')
+    .then(function (r) { return r.json(); })
+    .then(function (saved) {
+      Object.keys(design).forEach(function (key) { if (saved[key]) design[key] = saved[key]; });
+      applyDesign(design);
+    })
+    .catch(function () {})
+    .then(startEditor);
+
+  // שליחת התשובות לגיליון
+  var form = document.getElementById('form');
+  var msg = document.getElementById('msg');
+  var send = document.getElementById('send');
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var data = {
+      action: 'answers',
+      name: document.getElementById('name').value.trim(),
+      grade: document.getElementById('grade').value,
+      email: document.getElementById('email').value.trim(),
+      answer1: document.getElementById('a1').value.trim(),
+      answer2: document.getElementById('a2').value.trim(),
+      answer3: document.getElementById('a3').value.trim()
+    };
+    if (!data.name) { msg.textContent = 'רגע, שכחתם לכתוב את השם.'; document.getElementById('name').focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { msg.textContent = 'כתובת המייל חסרה או לא תקינה. בדקו אותה שוב.'; document.getElementById('email').focus(); return; }
+    if (!data.answer1 || !data.answer2 || !data.answer3) { msg.textContent = 'נשארה שאלה בלי תשובה. כתבו משהו בכל שלוש השאלות.'; return; }
+
+    send.disabled = true;
+    msg.textContent = 'שולחים את התשובות...';
+    callScript(data)
+      .then(function () {
+        form.style.display = 'none';
+        document.getElementById('done').style.display = 'block';
+        document.getElementById('done').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      })
+      .catch(function () {
+        send.disabled = false;
+        msg.textContent = 'השליחה לא הצליחה. בדקו את החיבור לאינטרנט ונסו שוב.';
+      });
+  });
+
+  // חלונית העיצוב למורה, נפתחת רק כשמוסיפים ?edit=1 לכתובת הדף
+  function startEditor() {
+    if (!/[?&]edit=1/.test(location.search)) return;
+    document.getElementById('editor').hidden = false;
+    var headingFonts = [
+      ['Fredoka', "Fredoka, sans-serif"], ['Varela Round', "Varela Round, sans-serif"],
+      ['Rubik', "Rubik, sans-serif"], ['Heebo', "Heebo, sans-serif"],
+      ['Assistant', "Assistant, sans-serif"], ['Alef', "Alef, sans-serif"],
+      ['Secular One', "Secular One, sans-serif"], ['Suez One', "Suez One, serif"],
+      ['Playpen Sans Hebrew', "Playpen Sans Hebrew, cursive"]
+    ];
+    var bodyFonts = headingFonts.slice(0, 6);
+
+    function fill(select, fonts, current) {
+      fonts.forEach(function (f) {
+        var o = document.createElement('option');
+        o.textContent = f[0]; o.value = f[1];
+        if (f[1] === current) o.selected = true;
+        select.appendChild(o);
+      });
+    }
+    var eh = document.getElementById('e-heading'), eb = document.getElementById('e-body');
+    var ep = document.getElementById('e-primary'), es = document.getElementById('e-secondary'), eg = document.getElementById('e-bg');
+    fill(eh, headingFonts, design.headingFont);
+    fill(eb, bodyFonts, design.bodyFont);
+    ep.value = design.primary; es.value = design.secondary; eg.value = design.background;
+
+    function current() {
+      return { headingFont: eh.value, bodyFont: eb.value, primary: ep.value, secondary: es.value, background: eg.value };
+    }
+    [eh, eb, ep, es, eg].forEach(function (el) {
+      el.addEventListener('input', function () { applyDesign(current()); });
+    });
+    document.getElementById('e-save').addEventListener('click', function () {
+      var note = document.getElementById('e-msg');
+      note.textContent = 'שומר...';
+      var payload = current();
+      payload.action = 'design';
+      callScript(payload)
+        .then(function () { note.textContent = 'נשמר. כל מי שיפתח את הדף יראה את העיצוב החדש.'; })
+        .catch(function () { note.textContent = 'השמירה לא הצליחה, נסי שוב.'; });
+    });
+  }
+</script>
+</body>
+</html>
